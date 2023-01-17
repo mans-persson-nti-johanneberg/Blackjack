@@ -1,15 +1,15 @@
-deck = ["S2", "R2", "K2", "H2", "S3", "R3", "K3", "H3","S4", "R4", "K4", "H4","S5", "R5", "K5", "H5","S6", "R6", "K6", "H6","S7", "R7", "K7", "H7","S8", "R8", "K8", "H8","S9", "R9", "K9", "H9","S1", "R1", "K1", "H1","SJ", "RJ", "KJ", "HJ","SD", "RD", "KD", "HD","SK", "RK", "KK", "HK","SA", "RA", "KA", "HA",]
+require_relative 'test2.rb'
 
-deck_shuffle = deck.shuffle()
+cards = [card1, card2, card3, card4, card5, card6, card7, card8, card9, card10, card11, card12, card13, card14, card15, card16, card17, card18, card19, card20, card21, card22, card23, card24, card25, card26, card27, card28, card29, card30, card31, card32, card33, card34, card35, card36, card37, card38, card39, card40, card41, card42, card43, card44, card45, card46, card47, card48, card49, card50, card51, card52]
 
-hand1 = []
-hand2 = []
-table = []
+cards_shuffle = cards.shuffle
 
-hand1 << deck_shuffle[1] << deck_shuffle[3]
-hand2 << deck_shuffle[2] << deck_shuffle[4]
-table << deck_shuffle[5] << deck_shuffle[6] << deck_shuffle[7] << deck_shuffle[8] << deck_shuffle[9]
 
-p hand1
-p hand2
-p table
+
+hand1 << cards_shuffle[0] << cards_shuffle[3]
+hand2 << cards_shuffle[1] << cards_shuffle[4]
+dealer << cards_shuffle[2] << cards_shuffle[5]
+
+puts hand1
+puts hand2
+puts dealer
