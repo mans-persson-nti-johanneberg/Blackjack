@@ -6,6 +6,7 @@ card1 = Cards.new
 card1.suit = "Klöver"
 card1.value = 2
 
+
 card2 = Cards.new
 card2.suit = "Ruter"
 card2.value = 2
@@ -149,84 +150,167 @@ card36.value = 10
 
 card37 = Cards.new
 card37.suit = "Klöver"
-card37.value = "J"
+card37.value = "Knekt"
 
 card38 = Cards.new
 card38.suit = "Ruter"
-card38.value = "J"
+card38.value = "Knekt"
 
 card39 = Cards.new
 card39.suit = "Spader"
-card39.value = "J"
+card39.value = "Knekt"
 
 card40 = Cards.new
 card40.suit = "Hjärter"
-card40.value = "J"
+card40.value = "Knekt"
 
 card41 = Cards.new
 card41.suit = "Klöver"
-card41.value = "Q"
+card41.value = "Dam"
 
 card42 = Cards.new
 card42.suit = "Ruter"
-card42.value = "Q"
+card42.value = "Dam"
 
 card43 = Cards.new
 card43.suit = "Spader"
-card43.value = "Q"
+card43.value = "Dam"
 
 card44 = Cards.new
 card44.suit = "Hjärter"
-card44.value = "Q"
+card44.value = "Dam"
 
 card45 = Cards.new
 card45.suit = "Klöver"
-card45.value = "K"
+card45.value = "Kung"
 
 card46 = Cards.new
 card46.suit = "Ruter"
-card46.value = "K"
+card46.value = "Kung"
 
 card47 = Cards.new
 card47.suit = "Spader"
-card47.value = "K"
+card47.value = "Kung"
 
 card48 = Cards.new
 card48.suit = "Hjärter"
-card48.value = "K"
+card48.value = "Kung"
 
 card49 = Cards.new
 card49.suit = "Klöver"
-card49.value = "A"
+card49.value = "Ess"
 
 card50 = Cards.new
 card50.suit = "Ruter"
-card50.value = "A"
+card50.value = "Ess"
 
 card51 = Cards.new
 card51.suit = "Spader"
-card51.value = "A"
+card51.value = "Ess"
 
 card52 = Cards.new
 card52.suit = "Hjärter"
-card52.value = "A"
+card52.value = "Ess"
+
+
+
+
+
+
+
 
 cards = [card1, card2, card3, card4, card5, card6, card7, card8, card9, card10, card11, card12, card13, card14, card15, card16, card17, card18, card19, card20, card21, card22, card23, card24, card25, card26, card27, card28, card29, card30, card31, card32, card33, card34, card35, card36, card37, card38, card39, card40, card41, card42, card43, card44, card45, card46, card47, card48, card49, card50, card51, card52]
 
-cards_shuffle = cards.shuffle
 
-hand1 = []
-hand2 = []
+hand = []
 dealer = []
+hand_value = 0
+dealer_value = 0
 
 
-hand1 << cards_shuffle[0] << cards_shuffle[3]
-hand2 << cards_shuffle[1] << cards_shuffle[4]
-dealer << cards_shuffle[2] << cards_shuffle[5]
+puts "Hej och välkommen till Blackjack. Vänligen skriv hur mycket du vill ha i din pot"
 
-# puts hand1[0].suit, hand1[0].value, hand1[1].suit, hand1[1].value
-# puts hand2[0].suit, hand2[0].value, hand2[1].suit, hand2[1].value
-# puts dealer[0].suit, dealer[0].value, dealer[1].suit, dealer[1].value
+pot = gets.to_i
+if pot.class != Integer
+    raise "Du måste skriva ett heltal"
+end
+
+puts "Du har #{pot} chips i potten, skriv \"Kör\" för att köra blackjack eller skriv \"Stop\" för att avsluta programmet"
+play = gets.chomp
+
+
+while play.downcase == "kör"
+    puts "Hur mycket vill du spela med?"
+    active_pot = gets.to_i
+    while active_pot > pot
+        puts "Du kan inte betta mer än vad du har. Försök igen."
+        active_pot = gets.to_i
+    end
+
+    pot -= active_pot
+
+    hand = []
+    dealer = []
+    hand_value = 0
+    dealer_value = 0
+
+    cards_shuffle = cards.shuffle
+    hand << cards_shuffle[0] << cards_shuffle[2]
+    dealer << cards_shuffle[3] << cards_shuffle[1]
+
+ 
+    
+   
+
+    puts "Du har: #{hand[0].suit} #{hand[0].value} och #{hand[1].suit} #{hand[1].value}"
+       
+    for i in hand
+        if i.value.class == Integer
+            hand_value += i.value
+        elsif i.value.class == String && i.value != "Ess"
+            hand_value += 10
+        elsif
+            i.value == "Ess" && hand_value + 11 <= 21
+            hand_value += 11
+        else
+            hand_value += 1
+        
+        end
+    end
+
+    for i in dealer
+        
+        if i.value.class == Integer
+            dealer_value += i.value
+        elsif i.value.class == String && i.value != "Ess"
+            dealer_value += 10
+        elsif
+            i.value == "Ess" && dealer_value + 11 <= 21
+            dealer_value += 11
+        else
+            dealer_value += 1
+        
+        end
+    end
+
+       
+    
+
+    if dealer_value == 21
+        puts "Dealer har blackjack"
+        break
+    end
+
+
+    puts "Din hand är värd #{hand_value}"
+
+    puts "Huset har #{dealer[0].suit} #{dealer[0].value}"
+    
 
 
 
+    puts "skriv kör eller stop"
+    play = gets.chomp
+end
+
+puts "Hejdå"
