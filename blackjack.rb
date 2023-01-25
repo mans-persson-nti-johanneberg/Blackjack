@@ -226,6 +226,7 @@ hand = []
 dealer = []
 hand_value = 0
 dealer_value = 0
+action = ""
 
 
 puts "Hej och välkommen till Blackjack. Vänligen skriv hur mycket du vill ha i din pot"
@@ -305,6 +306,35 @@ while play.downcase == "kör"
     puts "Din hand är värd #{hand_value}"
 
     puts "Huset har #{dealer[0].suit} #{dealer[0].value}"
+
+    while action.downcase != "stand"
+        if hand[0].value != hand[1].value
+            puts "Skriv \"hit\", \"double\" eller \"stand\""
+            action = gets
+            # puts action
+            # if action != "hit" || "double" || "stand"
+            #     raise "Du kan bara hitta, doubla eller standa"
+            # end
+        else
+            puts "Skriv \"hit\", \"double\", \"split\" eller \"stand\""
+        end
+
+        if action == "hit"
+            hand << 
+
+
+
+        
+        
+    
+    
+    
+    
+    end
+
+        
+
+   
     
 
 
