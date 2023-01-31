@@ -1,3 +1,2 @@
-require_relative '1.rb'
-
-puts name
+a = [1, 2, 3]
+puts a.length

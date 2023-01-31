@@ -256,6 +256,7 @@ while play.downcase == "kör"
     dealer_value = 0
 
     cards_shuffle = cards.shuffle
+    
     hand << cards_shuffle[0] << cards_shuffle[2]
     dealer << cards_shuffle[3] << cards_shuffle[1]
 
@@ -310,7 +311,6 @@ while play.downcase == "kör"
     while action.downcase != "stand"
         if hand[0].value != hand[1].value
             puts "Skriv \"hit\", \"double\" eller \"stand\""
-            action = gets
             # puts action
             # if action != "hit" || "double" || "stand"
             #     raise "Du kan bara hitta, doubla eller standa"
@@ -318,9 +318,51 @@ while play.downcase == "kör"
         else
             puts "Skriv \"hit\", \"double\", \"split\" eller \"stand\""
         end
+        action = gets.chomp
+        puts "test1"
+
 
         if action == "hit"
-            hand << 
+           
+            hand << cards_shuffle[4]
+           
+            
+        
+        
+            hand_value = 0
+            for i in hand
+                if i.value.class == Integer
+                    hand_value += i.value
+                elsif i.value.class == String && i.value != "Ess"
+                    hand_value += 10
+                elsif
+                    i.value == "Ess" && hand_value + 11 <= 21
+                    hand_value += 11
+                else
+                    hand_value += 1
+                
+                end
+            end
+            puts "Du har: #{hand[0].suit} #{hand[0].value}, #{hand[1].suit} #{hand[1].value} och #{hand[2].suit} #{hand[2].value}"
+            puts hand_value
+            if hand_value > 21
+                puts "Du blev tjock"
+                break
+            end
+        elsif action == "stand"
+            if hand_value > dealer_value
+                pot += active_pot*2
+                puts "Du vann, du har nu #{pot} chips "
+            end
+            
+
+
+        end
+
+
+
+
+
 
 
 
@@ -338,9 +380,7 @@ while play.downcase == "kör"
     
 
 
-
+    puts "Du har #{pot} chips"
     puts "skriv kör eller stop"
     play = gets.chomp
 end
-
-puts "Hejdå"
