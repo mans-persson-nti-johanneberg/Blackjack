@@ -319,18 +319,23 @@ while play.downcase == "kör"
             puts "Skriv \"hit\", \"double\", \"split\" eller \"stand\""
         end
         action = gets.chomp
-        puts "test1"
+       
 
-
+        k = 4
+        j = 2
         if action == "hit"
            
-            hand << cards_shuffle[4]
+            hand << cards_shuffle[k]
            
             
         
         
-            hand_value = 0
+           l = 0 
             for i in hand
+                l += 1
+                if l < j
+                    next
+                end
                 if i.value.class == Integer
                     hand_value += i.value
                 elsif i.value.class == String && i.value != "Ess"
@@ -343,16 +348,28 @@ while play.downcase == "kör"
                 
                 end
             end
-            puts "Du har: #{hand[0].suit} #{hand[0].value}, #{hand[1].suit} #{hand[1].value} och #{hand[2].suit} #{hand[2].value}"
+
+            i = 0
+            output = "Du har: "
+            while i <= j
+                output += " #{hand[i].suit} #{hand[i].value},"
+                i += 1
+            end
+            puts output
+
+            
             puts hand_value
             if hand_value > 21
                 puts "Du blev tjock"
                 break
             end
+            k += 1
+            j += 1
         elsif action == "stand"
             if hand_value > dealer_value
-                pot += active_pot*2
+                puts "Huset hade #{dealer[0].suit} #{dealer[0].value} och #{dealer[1].suit} #{dealer[1].value} "
                 puts "Du vann, du har nu #{pot} chips "
+                pot += active_pot*2
             end
             
 
