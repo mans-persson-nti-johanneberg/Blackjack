@@ -254,6 +254,8 @@ while play.downcase == "kör"
     dealer = []
     hand_value = 0
     dealer_value = 0
+    action = ""
+    ouput = "Du har: "
 
     cards_shuffle = cards.shuffle
     
@@ -323,6 +325,7 @@ while play.downcase == "kör"
 
         k = 4
         j = 2
+        
         if action == "hit"
            
             hand << cards_shuffle[k]
@@ -333,7 +336,7 @@ while play.downcase == "kör"
            l = 0 
             for i in hand
                 l += 1
-                if l < j
+                if l <= j
                     next
                 end
                 if i.value.class == Integer
@@ -348,14 +351,16 @@ while play.downcase == "kör"
                 
                 end
             end
+            j += 1
 
-            i = 0
-            output = "Du har: "
-            while i <= j
-                output += " #{hand[i].suit} #{hand[i].value},"
-                i += 1
-            end
-            puts output
+           
+           puts "Du har: "
+           for i in hand
+                puts i.suit
+                puts i.value    
+           end
+           
+            
 
             
             puts hand_value
@@ -366,14 +371,38 @@ while play.downcase == "kör"
             k += 1
             j += 1
         elsif action == "stand"
+            while dealer_value <= 16
+                dealer << cards_shuffle[k]
+                dealer_value = 0
+                for i in dealer
+                    
+                    if i.value.class == Integer
+                        dealer_value += i.value
+                    elsif i.value.class == String && i.value != "Ess"
+                        dealer_value += 10
+                    elsif
+                        i.value == "Ess" && dealer_value + 11 <= 21
+                        dealer_value += 11
+                    else
+                        dealer_value += 1
+                    
+                    end
+                end
+            end
             if hand_value > dealer_value
                 puts "Huset hade #{dealer[0].suit} #{dealer[0].value} och #{dealer[1].suit} #{dealer[1].value} "
-                puts "Du vann, du har nu #{pot} chips "
                 pot += active_pot*2
+                puts "Du vann, du har nu #{pot} chips "
+            elsif dealer_value == hand_value
+                puts "lika"
+            else
+                puts dealer_value
+                puts "dealer har mer bozo"
+                
             end
             
 
-
+            
         end
 
 

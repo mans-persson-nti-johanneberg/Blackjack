@@ -1,4 +1,4 @@
 
-def name
-    return "Leo"
-end
+a = "fff"
+b = a + 
+puts b
