@@ -309,8 +309,9 @@ while play.downcase == "kör"
     puts "Din hand är värd #{hand_value}"
 
     puts "Huset har #{dealer[0].suit} #{dealer[0].value}"
+    check = 1
 
-    while action.downcase != "stand"
+    while check = 1
         if hand[0].value != hand[1].value
             puts "Skriv \"hit\", \"double\" eller \"stand\""
             # puts action
@@ -350,6 +351,7 @@ while play.downcase == "kör"
                     hand_value += 1
                 
                 end
+                puts hand_value
             end
             j += 1
 
@@ -395,6 +397,7 @@ while play.downcase == "kör"
                 puts "Du vann, du har nu #{pot} chips "
             elsif dealer_value == hand_value
                 puts "lika"
+                pot += active_pot
             else
                 puts dealer_value
                 puts "dealer har mer bozo"
