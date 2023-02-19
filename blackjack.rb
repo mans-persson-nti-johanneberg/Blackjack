@@ -265,7 +265,7 @@ while play.downcase == "kör"
  
     
    
-
+    puts "--------------------------------------------------------"
     puts "Du har: #{hand[0].suit} #{hand[0].value} och #{hand[1].suit} #{hand[1].value}"
        
     for i in hand
@@ -301,8 +301,7 @@ while play.downcase == "kör"
     
 
     if dealer_value == 21
-        puts "Dealer har blackjack"
-        break
+        hand_value = 0
     end
 
 
@@ -310,21 +309,26 @@ while play.downcase == "kör"
 
     puts "Huset har #{dealer[0].suit} #{dealer[0].value}"
     check = 1
+    k = 4
 
-    while check = 1
-        if hand[0].value != hand[1].value
+    while check == 1
+        if hand_value == 0
+            puts "Dealer har blackjack, du kan inte spela vidare."
+            break
+        end
+        if pot >= active_pot && k == 4
             puts "Skriv \"hit\", \"double\" eller \"stand\""
             # puts action
             # if action != "hit" || "double" || "stand"
             #     raise "Du kan bara hitta, doubla eller standa"
             # end
         else
-            puts "Skriv \"hit\", \"double\", \"split\" eller \"stand\""
+            puts "Skriv \"hit\" eller \"stand\""
         end
         action = gets.chomp
        
 
-        k = 4
+        
         j = 2
         
         if action == "hit"
@@ -351,30 +355,36 @@ while play.downcase == "kör"
                     hand_value += 1
                 
                 end
-                puts hand_value
+                
             end
             j += 1
 
            
            puts "Du har: "
            for i in hand
-                puts i.suit
-                puts i.value    
+                puts "#{i.suit} #{i.value}"
            end
            
             
 
             
-            puts hand_value
+            puts "Din hand är värd #{hand_value}"
             if hand_value > 21
+                puts "--------------------------------------------------------"
+                puts "Du hade: "
+                for i in hand
+                    puts "#{i.suit} #{i.value}"
+                end
                 puts "Du blev tjock"
                 break
             end
             k += 1
             j += 1
         elsif action == "stand"
+           
             while dealer_value <= 16
                 dealer << cards_shuffle[k]
+                k += 1
                 dealer_value = 0
                 for i in dealer
                     
@@ -391,22 +401,207 @@ while play.downcase == "kör"
                     end
                 end
             end
-            if hand_value > dealer_value
-                puts "Huset hade #{dealer[0].suit} #{dealer[0].value} och #{dealer[1].suit} #{dealer[1].value} "
+            if dealer_value > 21
+                puts "--------------------------------------------------------"
+                puts "Du hade: "
+                for i in hand
+                    puts "#{i.suit} #{i.value}"
+                end
+                puts "Det är värt #{hand_value}"
+                puts "--------------------------------------------------------"
+                puts "Huset hade: "
+                for i in dealer
+                    puts "#{i.suit} #{i.value}"
+                end
+                puts "Det blir mer än 21"
                 pot += active_pot*2
                 puts "Du vann, du har nu #{pot} chips "
+                break
+            elsif hand_value > dealer_value
+                puts "--------------------------------------------------------"
+                puts "Du hade: "
+                for i in hand
+                    puts "#{i.suit} #{i.value}"
+                end
+                puts "Det är värt #{hand_value}"
+                puts "--------------------------------------------------------"
+                puts "Huset hade"
+                for i in dealer
+                    puts "#{i.suit} #{i.value}"
+                end
+                puts "Det blir #{dealer_value}"
+                pot += active_pot*2
+                puts "Du vann, du har nu #{pot} chips "
+                break
             elsif dealer_value == hand_value
-                puts "lika"
+                puts "--------------------------------------------------------"
+                puts "Du hade: "
+                for i in hand
+                    puts "#{i.suit} #{i.value}"
+                end
+                puts "Det är värt #{hand_value}"
+                puts "--------------------------------------------------------"
+                puts "Huset hade: "
+                for i in dealer
+                    puts "#{i.suit} #{i.value}"
+                end
+                puts "Det blir lika"
                 pot += active_pot
+                break
+        
             else
-                puts dealer_value
-                puts "dealer har mer bozo"
+                puts "--------------------------------------------------------"
+                puts "Du hade: "
+                for i in hand
+                    puts "#{i.suit} #{i.value}"
+                end
+                puts "Det är värt #{hand_value}"
+                puts "--------------------------------------------------------"
+                puts "Huset hade: "
+                for i in dealer
+                    puts "#{i.suit} #{i.value}"
+                end
+                puts "Huset hade #{dealer_value}, du förlorar"
+                break
+            end
+        elsif action == "double"
+            
+            pot -= active_pot
+            active_pot = active_pot *2
+
+            hand << cards_shuffle[k]
+           
+            
+        
+        
+           l = 0 
+            for i in hand
+                l += 1
+                if l <= j
+                    next
+                end
+                if i.value.class == Integer
+                    hand_value += i.value
+                elsif i.value.class == String && i.value != "Ess"
+                    hand_value += 10
+                elsif
+                    i.value == "Ess" && hand_value + 11 <= 21
+                    hand_value += 11
+                else
+                    hand_value += 1
+                
+                end
                 
             end
+            j += 1
+
+            
+            if hand_value > 21
+                puts "--------------------------------------------------------"
+                puts "Du hade: "
+                for i in hand
+                    puts "#{i.suit} #{i.value}"
+                end
+                puts "Du blev tjock"
+                break
+            end
+            k += 1
+            j += 1
+       
+            while dealer_value <= 16
+                dealer << cards_shuffle[k]
+                k += 1
+                dealer_value = 0
+                for i in dealer
+                    
+                    if i.value.class == Integer
+                        dealer_value += i.value
+                    elsif i.value.class == String && i.value != "Ess"
+                        dealer_value += 10
+                    elsif
+                        i.value == "Ess" && dealer_value + 11 <= 21
+                        dealer_value += 11
+                    else
+                        dealer_value += 1
+                    
+                    end
+                end
+            end
+            if dealer_value > 21
+                puts "--------------------------------------------------------"
+                puts "Du hade: "
+                for i in hand
+                    puts "#{i.suit} #{i.value}"
+                end
+                puts "Det är värt #{hand_value}"
+                puts "--------------------------------------------------------"
+                puts "Huset hade: "
+                for i in dealer
+                    puts "#{i.suit} #{i.value}"
+                end
+                puts "Det blir mer än 21"
+                pot += active_pot*2
+                puts "Du vann, du har nu #{pot} chips "
+                break
+            elsif hand_value > dealer_value
+                puts "--------------------------------------------------------"
+                puts "Du hade: "
+                for i in hand
+                    puts "#{i.suit} #{i.value}"
+                end
+                puts "Det är värt #{hand_value}"
+                puts "--------------------------------------------------------"
+                puts "Huset hade: "
+                for i in dealer
+                    puts "#{i.suit} #{i.value}"
+                end
+                puts "Det blir #{dealer_value}"
+                pot += active_pot*2
+                puts "Du vann, du har nu #{pot} chips "
+                break
+            elsif dealer_value == hand_value
+                puts "--------------------------------------------------------"
+                puts "Du hade: "
+                for i in hand
+                    puts "#{i.suit} #{i.value}"
+                end
+                puts "Det är värt #{hand_value}"
+                puts "--------------------------------------------------------"
+                puts "Huset hade: "
+                for i in dealer
+                    puts "#{i.suit} #{i.value}"
+                end
+                puts "Det blir lika"
+                pot += active_pot
+                break
+            else
+                puts "--------------------------------------------------------"
+                puts "Du hade: "
+                for i in hand
+                    puts "#{i.suit} #{i.value}"
+                end
+                puts "Det är värt #{hand_value}"
+                puts "--------------------------------------------------------"
+                puts "Huset hade: "
+                for i in dealer
+                    puts "#{i.suit} #{i.value}"
+                end
+                puts "Huset hade #{dealer_value}, du förlorar"
+                break
+            end
+
+           
+           
+
+            
+            
+        
+        end
+
             
 
             
-        end
+        
 
 
 
@@ -430,6 +625,7 @@ while play.downcase == "kör"
 
 
     puts "Du har #{pot} chips"
+    puts "--------------------------------------------------------"
     puts "skriv kör eller stop"
     play = gets.chomp
 end
