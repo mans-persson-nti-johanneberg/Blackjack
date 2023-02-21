@@ -1,5 +1,5 @@
 class Cards
-    attr_accessor :suit, :value
+    attr_accessor :suit, :value, :checker
 end
 
 card1 = Cards.new
@@ -199,18 +199,22 @@ card48.value = "Kung"
 card49 = Cards.new
 card49.suit = "Klöver"
 card49.value = "Ess"
+card49.checker = 0
 
 card50 = Cards.new
 card50.suit = "Ruter"
 card50.value = "Ess"
+card50.checker = 0
 
 card51 = Cards.new
 card51.suit = "Spader"
 card51.value = "Ess"
+card51.checker = 0
 
 card52 = Cards.new
 card52.suit = "Hjärter"
 card52.value = "Ess"
+card52.checker = 0
 
 
 
@@ -299,9 +303,9 @@ while play.downcase == "kör"
 
        
     
-
+    check2 = 1
     if dealer_value == 21
-        hand_value = 0
+        check2 = 0
     end
 
 
@@ -310,9 +314,9 @@ while play.downcase == "kör"
     puts "Huset har #{dealer[0].suit} #{dealer[0].value}"
     check = 1
     k = 4
-
+    j = 2
     while check == 1
-        if hand_value == 0
+        if check2 == 0
             puts "Dealer har blackjack, du kan inte spela vidare."
             break
         end
@@ -329,7 +333,7 @@ while play.downcase == "kör"
        
 
         
-        j = 2
+        
         
         if action == "hit"
            
@@ -353,12 +357,18 @@ while play.downcase == "kör"
                     hand_value += 11
                 else
                     hand_value += 1
-                
+                    i.checker = 47
                 end
                 
             end
             j += 1
 
+            for i in hand
+                if i.value == "Ess" && hand_value > 21 && i.checker == 0
+                    hand_value -= 10
+                    i.checker = 47
+                end
+            end
            
            puts "Du har: "
            for i in hand
@@ -379,7 +389,7 @@ while play.downcase == "kör"
                 break
             end
             k += 1
-            j += 1
+            
         elsif action == "stand"
            
             while dealer_value <= 16
@@ -397,8 +407,15 @@ while play.downcase == "kör"
                         dealer_value += 11
                     else
                         dealer_value += 1
-                    
+                        i.checker = 47
                     end
+                end
+            end
+
+            for i in dealer
+                if i.value == "Ess" && dealer_value > 21 && i.checker == 0
+                    dealer_value -= 10
+                    i.checker = 47
                 end
             end
             if dealer_value > 21
@@ -474,7 +491,7 @@ while play.downcase == "kör"
             
         
         
-           l = 0 
+            l = 0 
             for i in hand
                 l += 1
                 if l <= j
@@ -496,6 +513,8 @@ while play.downcase == "kör"
             j += 1
 
             
+            
+
             if hand_value > 21
                 puts "--------------------------------------------------------"
                 puts "Du hade: "
@@ -505,6 +524,8 @@ while play.downcase == "kör"
                 puts "Du blev tjock"
                 break
             end
+            
+            
             k += 1
             j += 1
        
@@ -589,41 +610,15 @@ while play.downcase == "kör"
                 puts "Huset hade #{dealer_value}, du förlorar"
                 break
             end
-
-           
-           
-
             
-            
-        
         end
 
-            
-
-            
-        
-
-
-
-
-
-
-
-
-        
-        
-    
-    
-    
-    
     end
 
-        
-
-   
-    
-
-
+    if pot <= 0
+        puts "Du har slut på pengar du förlora"
+        break
+    end
     puts "Du har #{pot} chips"
     puts "--------------------------------------------------------"
     puts "skriv kör eller stop"
